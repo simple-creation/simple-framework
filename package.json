@@ -1,0 +1,72 @@
+{
+  "name": "simple-framework",
+  "version": "1.0.55",
+  "description": "simplify the UI lib",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "utils",
+    "base"
+  ],
+  "scripts": {
+    "start": "export NODE_ENV='development' && webpack-dev-server --config webpack.config-dev.js",
+    "build-creator": "export NODE_ENV='production' && webpack --config webpack.config-creator.js",
+    "build": "export NODE_ENV='production' && webpack",
+    "lib": "gulp lib",
+    "es": "gulp es",
+    "prepublish": "gulp"
+  },
+  "keywords": [
+    "simple-framework"
+  ],
+  "author": "windwithlife",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "antd": "^4.16.13",
+    "axios": "^0.22.0"
+  },
+  "dependencies": {
+    "axios": "^0.22.0",
+    "enquire-js": "^0.2.1",
+    "lodash": "^4.17.21",
+    "rc-queue-anim": "^2.0.0",
+    "rc-scroll-anim": "^2.7.6",
+    "rc-tween-one": "^2.7.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.15.7",
+    "@babel/core": "^7.15.5",
+    "@babel/plugin-proposal-decorators": "^7.15.8",
+    "@babel/plugin-proposal-object-rest-spread": "^7.15.6",
+    "@babel/plugin-transform-modules-umd": "^7.14.5",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.15.6",
+    "@babel/preset-react": "^7.14.5",
+    "antd": "^4.16.13",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-import": "^1.13.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "css-loader": "^6.3.0",
+    "del": "^6.0.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "html-webpack-plugin": "^5.3.2",
+    "less": "^4.1.2",
+    "less-loader": "^10.0.1",
+    "merge2": "^1.4.1",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "react-router-dom": "^5.3.0",
+    "style-loader": "^3.3.0",
+    "webpack": "^5.57.1",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.3.1",
+    "webpack-node-externals": "^3.0.0"
+  }
+}

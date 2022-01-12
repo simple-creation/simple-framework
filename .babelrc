@@ -1,0 +1,22 @@
+
+
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": [
+    ["import", {
+      "libraryName": "antd",
+      "libraryDirectory": "es",
+      "style": true
+    }],
+    ["@babel/plugin-transform-runtime"]
+    // ["@babel/plugin-transform-modules-umd", {
+    //   "globals": {
+    //     "es6-promise": "Promise"
+    //   }
+    // }]
+  ]
+
+}
+
+
+
