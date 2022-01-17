@@ -41,7 +41,11 @@ class Header extends React.Component {
           <div className="header0-wrapper-logo" >
             <img  src={that.logoImage} alt="img" />
           </div>
-
+          <div className='header0-wrapper-title'>
+            {
+              that.props.title || ''
+            }
+          </div>
           <div className="header0-menu" >
             <HeaderMenu menuData={menuData} menuClick={that.props.menuClick} style={that.props.style} />
           </div>
