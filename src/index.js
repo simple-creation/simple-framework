@@ -9,6 +9,8 @@ export { default as DestinationHome}  from './components/destinationHome';
 
 export { default as BlockList}  from './components/blockList';
 
+export { default as Masonry}  from './components/masonry';
+
 // "use strict";
 
 // const Simple = {
