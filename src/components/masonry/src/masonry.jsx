@@ -46,7 +46,6 @@ class Masonry extends React.Component {
       wrapH: null,
     }
     this.wrapRef = createRef(null)
-    this.childsRef = createRef([])
     this.handleScroll = debounce(this.handleScroll.bind(this), 200)
     this.init = this.init.bind(this)
     this.checkScrollSlide = this.checkScrollSlide.bind(this)
@@ -150,8 +149,14 @@ class Masonry extends React.Component {
   render() {
     const { list, wrapW, wrapH, styles } = this.state
     const { component: Component, key, gap } = this.props
+    const style = {
+      width: wrapW, 
+      height: wrapH, 
+      marginLeft: `-${gap}px`,
+      marginTop: `-${gap}px`,
+    }
     return (
-      <div className='image-auto-flow-wrap' ref={this.wrapRef} style={{ width: wrapW, height: wrapH, marginLeft: `-${gap}px` }}>
+      <div className='image-auto-flow-wrap' style={style} ref={this.wrapRef}>
         {list.map((item, index) => {
           const padding = `${gap}px 0 0 ${gap}px`
           return (
