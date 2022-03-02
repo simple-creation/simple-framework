@@ -1,5 +1,5 @@
 import React from "react";
-import Masonry from "../../src/components/masonry";
+import Masonry from "../../../src/components/masonry";
 
 const defaultList = Array(10)
   .fill(null)
