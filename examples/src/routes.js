@@ -4,7 +4,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 
 
-// import SelectHome from "./pages/selectHome"
+import SelectHome from "./pages/selectHome"
 import Preview from "./pages/preview"
 import Home from "./home"
 import TestMasonry from './components/testMasonry'
