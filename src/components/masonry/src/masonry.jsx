@@ -1,25 +1,25 @@
-import React, { createRef } from 'react'
-import '../style/index.less'
+import React, { useRef, useState, useEffect, useMemo } from "react";
+import { unstable_batchedUpdates } from "react-dom";
+import "../style/index.less";
+
+let _heightArray = [];
 
 function debounce(func, delay) {
-  let timer
-  return function() {
-    let context = this
-    let args = arguments
-    timer && clearTimeout(timer)
-    timer = setTimeout(function() {
-      func.apply(context, args)
-    }, delay)
-  }
+  let timer;
+  return function () {
+    let context = this;
+    let args = arguments;
+    timer && clearTimeout(timer);
+    timer = setTimeout(function () {
+      func.apply(context, args);
+    }, delay);
+  };
 }
-
 
 class Bitmap extends React.Component {
   render() {
-    const { index } = this.props
-    return (
-      <img src={`http://placehold.it/400x200?text=${index + 1}`} alt="default bitmap" /> 
-    )
+    let { index, item } = this.props;
+    return <img src={item} alt="default bitmap" />;
   }
 }
 
@@ -31,143 +31,157 @@ class Bitmap extends React.Component {
  * key：列表的key
  * onScroll：滚动到底部更新数据
  */
-class Masonry extends React.Component {
-  static defaultProps  = {
-    colums: 0,
-    gap: 10,
-    component: Bitmap
-  }
-  constructor(props) {
-    super(props)
-    this.state = {
-      list: props.data,
-      styles: [],
-      wrapW: null,
-      wrapH: null,
-    }
-    this.wrapRef = createRef(null)
-    this.handleScroll = debounce(this.handleScroll.bind(this), 200)
-    this.init = this.init.bind(this)
-    this.checkScrollSlide = this.checkScrollSlide.bind(this)
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.init()
-    })
-
-    window.addEventListener('scroll', this.handleScroll, false)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll, false)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState(
-      {
-        list: nextProps.data,
-      },
-      () => {
-        setTimeout(() => {
-          this.init()
-        })
-      }
-    )
-  }
-
-  init() {
-    const wrap = this.wrapRef.current
-    if (wrap) {
-      const styles = []
-      let itemW = null
-      const wrapW = wrap.clientWidth
-      let columns = this.props.columns
-      if(columns) {
-        itemW = Math.floor(wrapW / columns)
-      } else {
-        itemW = wrap.children[0].offsetWidth
-        columns = Math.floor(wrapW / itemW)
-      }
-      const heightArray = []
-      for (let i = 0, len = wrap.children.length; i < len; i++) {
-        if (i < columns) {
-          const itemH = wrap.children[i].offsetHeight
-          const left = wrap.children[i].offsetLeft
-          styles.push({
-            position: 'absolute',
-            top: 0,
-            left: `${left}px`,
-          })
-          heightArray.push(itemH)
-        } else {
-          const minH = Math.min.apply(null, heightArray)
-          const minIndex = heightArray.findIndex(item => item === minH)
-          const left = wrap.children[minIndex].offsetLeft
-          styles.push({
-            position: 'absolute',
-            top: `${minH}px`,
-            left: `${left}px`, 
-          })
-          heightArray[minIndex] += wrap.children[i].offsetHeight
-        }
-      }
-
-      const wrapH = Math.max.apply(null, heightArray);
-      this.setState(
-        {
-          wrapW,
-          wrapH,
-          styles,
-        },
-        () => {
-          this.loading = false
-        }
-      )
-    }
-  }
-
-  handleScroll() {
-    const flag = this.checkScrollSlide()
-    if (flag && !this.loading) {
-      const { onScroll } = this.props
-      this.loading = true
-      onScroll && onScroll()
-    }
-  }
-
-  checkScrollSlide() {
-    const wrap = this.wrapRef.current
-    const items = wrap.children
-    const lastBox = items[items.length - 1]
-    const lastBoxHeigth = lastBox.offsetTop + lastBox.offsetHeight
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
-    const winHeigth = document.documentElement.clientHeight || document.body.clientHeight
-    return lastBoxHeigth < (scrollTop + winHeigth + 100)
-  }
-
-  render() {
-    const { list, wrapW, wrapH, styles } = this.state
-    const { component: Component, key, gap } = this.props
-    const style = {
-      width: wrapW, 
-      height: wrapH, 
+const Masonry = ({
+  key,
+  data,
+  gap,
+  onScroll,
+  columns: col,
+  component: Component = Bitmap,
+}) => {
+  const [columns, setColumns] = useState(col);
+  const [styles, setStyles] = useState([]);
+  const [wrapW, setWrapW] = useState(null);
+  const [wrapH, setWrapH] = useState(null);
+  const wrapRef = useRef(null);
+  const padding = useMemo(() => {
+    return `${gap}px 0 0 ${gap}px`;
+  }, [gap]);
+  const style = useMemo(() => {
+    return {
+      width: wrapW,
+      height: wrapH,
       marginLeft: `-${gap}px`,
       marginTop: `-${gap}px`,
-    }
-    return (
-      <div className='image-auto-flow-wrap' style={style} ref={this.wrapRef}>
-        {list.map((item, index) => {
-          const padding = `${gap}px 0 0 ${gap}px`
-          return (
-            <div className="image-auto-flow-item" style={{...styles[index], padding }} key={item[key] || item.id || index}>
-              <Component item={item} index={index} />
-            </div>
-          )
-        })}
-      </div>
-    )
-  }
-}
+    };
+  }, [gap]);
 
-export default Masonry
+  useEffect(() => {
+    console.log(styles.length, "001");
+    window.onload = () => {
+      console.log(styles.length, "002");
+      init();
+    };
+    if (styles.length) {
+      add();
+    }
+    window.addEventListener("scroll", handleScroll, false);
+    return () => {
+      window.addEventListener("scroll", handleScroll, false);
+    };
+  }, [data]);
+
+  const init = () => {
+    const wrap = wrapRef.current;
+    if (wrap) {
+      const styles = [];
+      let itemW = null;
+      const wrapW = wrap.clientWidth;
+      const children = wrap.children;
+      let col = null;
+      if (columns) {
+        itemW = Math.floor(wrapW / columns);
+        col = columns;
+      } else {
+        itemW = children[0].offsetWidth;
+        col = Math.floor(wrapW / itemW);
+      }
+      for (let i = 0, len = children.length; i < len; i++) {
+        if (i < col) {
+          const itemH = children[i].offsetHeight;
+          const left = children[i].offsetLeft;
+          styles.push({
+            position: "absolute",
+            top: 0,
+            left: `${left}px`,
+          });
+          _heightArray.push(itemH);
+        } else {
+          const minH = Math.min.apply(null, _heightArray);
+          const minIndex = _heightArray.findIndex((item) => item === minH);
+          const left = children[minIndex].offsetLeft;
+          styles.push({
+            position: "absolute",
+            top: `${minH}px`,
+            left: `${left}px`,
+          });
+          _heightArray[minIndex] += children[i].offsetHeight;
+        }
+      }
+
+      const wrapH = Math.max.apply(null, _heightArray);
+
+      unstable_batchedUpdates(() => {
+        setColumns(col);
+        setWrapH(wrapH);
+        setWrapW(wrapW);
+        setStyles(styles);
+      });
+    }
+  };
+
+  const add = () => {
+    const wrap = wrapRef.current;
+    if (wrap) {
+      const children = wrap.children;
+      for (let i = styles.length, len = children.length; i < len; i++) {
+        const minH = Math.min.apply(null, _heightArray);
+        const minIndex = _heightArray.findIndex((item) => item === minH);
+        const left = children[minIndex].offsetLeft;
+        styles.push({
+          position: "absolute",
+          top: `${minH}px`,
+          left: `${left}px`,
+        });
+        _heightArray[minIndex] += children[i].offsetHeight;
+      }
+
+      const wrapH = Math.max.apply(null, _heightArray);
+      unstable_batchedUpdates(() => {
+        setWrapH(wrapH);
+        setWrapW(wrapW);
+        setStyles(styles);
+      });
+    }
+  };
+
+  const handleScroll = debounce(() => {
+    const checked = checkScrollSlide();
+    if (checked) {
+      onScroll && onScroll();
+    }
+  }, 200);
+
+  const checkScrollSlide = () => {
+    const wrap = wrapRef.current;
+    const items = wrap.children;
+    const lastBox = items[items.length - 1];
+    const lastBoxHeigth = lastBox.offsetTop + lastBox.offsetHeight;
+    const scrollTop =
+      document.documentElement.scrollTop || document.body.scrollTop;
+    const winHeigth =
+      document.documentElement.clientHeight || document.body.clientHeight;
+    return lastBoxHeigth < scrollTop + winHeigth + 100;
+  };
+
+  if (!data || !Array.isArray(data) || !data.length) {
+    return null;
+  }
+  return (
+    <div className="image-auto-flow-wrap" style={style} ref={wrapRef}>
+      {data.map((item, index) => {
+        return (
+          <div
+            className="image-auto-flow-item"
+            style={{ ...styles[index], padding }}
+            key={item[key] || item.id || index}
+          >
+            <Component item={item} index={index} />
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+export default Masonry;

@@ -1,9 +1,13 @@
 import React from "react";
-import Masonry from "../../src/components/masonry";
+import Masonry from "../../../src/components/masonry";
 
-const defaultList = Array(20)
+const defaultList = Array(10)
   .fill(null)
-  .map((_, index) => index);
+  .map((_, index) => {
+    const list = [300, 400, 500]
+    const random = Math.floor(Math.random() * 3)
+    return `http://placehold.it/400x${list[random]}?text=${index + 1}`
+  });
 class TestMasonry extends React.Component {
   constructor(props) {
     super(props);

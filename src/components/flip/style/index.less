@@ -1,0 +1,29 @@
+.flip-card {
+  position: relative;
+  perspective: 1000px;
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .flip-cover,
+  .flip-back {
+    position: absolute;
+    backface-visibility: hidden; // 当元素背面向屏幕时是否可见
+    transition: all 1s ease-in-out;
+  }
+
+  .flip-cover {
+    transform: rotateY(0deg);
+  }
+  .flip-back {
+    transform: rotateY(-180deg);
+  }
+  &:hover .flip-cover {
+    transform: rotateY(180deg);
+  }
+
+  &:hover .flip-back {
+    transform: rotateY(0deg);
+  }
+}
