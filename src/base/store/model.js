@@ -66,7 +66,7 @@ export default class Model {
   async fetch_get(url, query) {
     let that = this;
     let params = {cid: Client.getClientId(), ...query};
-    axios.defaults.withCredentials = true;
+    //axios.defaults.withCredentials = true;
     axios.defaults.crossDomain = true;
     let result = await axios({
         headers: {
@@ -76,14 +76,16 @@ export default class Model {
         method: 'get',
         url: that.composeFullUrl(url),
         params: params,
-    }).then(that.checkResponse).catch((error)=>{console.log('fetch get error-->',error)});
-   
+    }).then(that.checkResponse).catch((error)=>{
+      console.log('network error:',error);
+      return error;
+    });
     return result;
   }
   async fetch_post(url, body, options) {
     let that = this;
     let params = { params: body ,head:{cid: Client.getClientId()}};
-    axios.defaults.withCredentials = true;
+    //axios.defaults.withCredentials = true;
     axios.defaults.crossDomain = true;
     let result = await axios({
         headers: {
@@ -93,7 +95,10 @@ export default class Model {
         method: 'post',
         url:that.composeFullUrl(url),
         data: params,
-    }).then(that.checkResponse).catch((error)=>{console.log('fetch post error-->',error)});
+    }).then(that.checkResponse).catch((error)=>{
+      console.log('network error:',error);
+      return error;
+    });
    
     return result;
 

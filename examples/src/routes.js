@@ -28,6 +28,7 @@ export default class App extends PureComponent {
         <div>
           {/* <Route exact path="/" component={SelectHome} /> */}
           <Route path="/home" component={Home} />
+          <Route path="/creator" component={SelectHome} />
           <Route path="/preview" component={Preview} />
           <Route path="/masonry" component={TestMasonry} />
         </div>
