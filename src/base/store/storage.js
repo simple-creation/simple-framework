@@ -16,7 +16,7 @@ export default class ClientStorage {
     }
     static removeItem(key){
         if (!isServer) {
-            result = localStorage.removeItem(key);
+            let result = localStorage.removeItem(key);
         } 
     }
 
