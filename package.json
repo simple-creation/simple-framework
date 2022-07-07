@@ -1,6 +1,6 @@
 {
   "name": "simple-framework",
-  "version": "1.0.59",
+  "version": "1.0.65",
   "description": "simplify the UI lib",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -36,7 +36,8 @@
     "lodash": "^4.17.21",
     "rc-queue-anim": "^2.0.0",
     "rc-scroll-anim": "^2.7.6",
-    "rc-tween-one": "^2.7.3"
+    "rc-tween-one": "^2.7.3",
+    "history": "^5.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
@@ -56,6 +57,7 @@
     "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
+   
     "html-webpack-plugin": "^5.3.2",
     "less": "^4.1.2",
     "less-loader": "^10.0.1",

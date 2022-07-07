@@ -24,9 +24,9 @@ const DataSource = {
    
 };
 export const getComponentByName = function(name){
-    for (var item of DataSource){
+    for (var item of DataSource.itemsData){
        if (item.name === name){
-         return item;
+         return item.component;
        }
     }
 }

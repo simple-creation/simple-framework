@@ -32,7 +32,7 @@ const Flip = ({
   }, [style, backStyle, duration]);
 
   return (
-    <div className="flip-card">
+    <div className="flip-card" style={style}>
       <div className="flip-cover" style={coverStyl}>
         {cover}
       </div>
