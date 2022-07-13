@@ -1,7 +1,6 @@
 import React, { useState, useEffect,useImperativeHandle } from 'react'
 /*import { ContainerDiv ,ComponentDestinationHomeImageList,ContainerWH,transformScale} from './styled/destinationHome'*/
 import _ from "lodash"
-import '../style/destinationHome.less'
 const transformScale= 0.85;
 const ContainerWH = 1;
 const marginBu = ContainerWH * ( 1 - transformScale);

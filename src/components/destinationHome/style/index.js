@@ -1,5 +1,5 @@
 
-import './destinationHome.less';
+import './index.less';
 
 
 

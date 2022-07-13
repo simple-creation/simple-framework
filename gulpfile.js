@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const clean = require('del');
 // const ts = require('gulp-typescript');
+const less=require('gulp-less');
 const merge = require('merge2');
 
 // const tsProject = ts.createProject('./tsconfig.json');
@@ -20,6 +21,10 @@ gulp.task('cleanEs', () => {
 
 function moveLess(dir) {
     return gulp.src('./src/**/*.less').pipe(gulp.dest(dir));
+}
+
+function moveAndCompileLess(dir) {
+    return gulp.src('./src/**/index.less').pipe(less({javascriptEnabled: true})).pipe(gulp.dest(dir));
 }
 
 // function compileTs() {
@@ -72,8 +77,9 @@ gulp.task('lib', gulp.series('clean', () => {
     //   const cssStream = moveLess(LIBDIR); // 处理css流
     //    return merge(jsStream, tsdStream, cssStream);
     const jsStream = gulp.src(["./src/**/*.js","./src/**/*.jsx"]).pipe(babel(babelConfig('commonjs'))).pipe(gulp.dest(LIBDIR));
-    const cssStream = moveLess(LIBDIR); // 处理css流
-    return merge(jsStream, cssStream);
+    const lessStream = moveLess(LIBDIR); // 处理copy less流
+    const cssStream = moveAndCompileLess(LIBDIR); // 处理编译less to css流
+    return merge(jsStream, lessStream,cssStream);
 
 
 }

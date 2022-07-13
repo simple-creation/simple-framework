@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
 import { unstable_batchedUpdates } from "react-dom";
-import "../style/index.less";
+// import "../style/index.less";
 
 let _heightArray = [];
 

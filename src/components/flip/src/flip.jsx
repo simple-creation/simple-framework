@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import "../style/index.less";
+// import "../style/index.less";
 
 /**
  * 翻牌UI组件
