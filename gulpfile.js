@@ -5,6 +5,9 @@ const clean = require('del');
 const less=require('gulp-less');
 const merge = require('merge2');
 
+const path = require('path');
+const alias = require('gulp-path-alias');
+
 // const tsProject = ts.createProject('./tsconfig.json');
 const ESDIR = './es';
 const LIBDIR = './lib';
@@ -24,7 +27,13 @@ function moveLess(dir) {
 }
 
 function moveAndCompileLess(dir) {
-    return gulp.src('./src/**/index.less').pipe(less({javascriptEnabled: true})).pipe(gulp.dest(dir));
+    return gulp.src('./src/**/index.less')
+    .pipe(alias({
+        paths: {
+          '~antd': path.resolve(__dirname, 'node_modules/antd'),
+        }
+      }))
+    .pipe(less({javascriptEnabled: true})).pipe(gulp.dest(dir));
 }
 
 // function compileTs() {

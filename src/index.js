@@ -1,16 +1,17 @@
 
-export { default as Header } from './components/header';
-export { default as Header0 } from './components/header0';
-// export { default as Footer } from './components/footer';
-export { default as Block0 } from './components/block0';
-export { default as Block3 } from './components/block3';
-// export { default as Block5 } from './components/block5';
+// export { default as Header } from './components/header';
+// export { default as Header0 } from './components/header0';
+// // export { default as Footer } from './components/footer';
+// export { default as Block0 } from './components/block0';
+// export { default as Block3 } from './components/block3';
+export { default as Block5 } from './components/block5';
 export { default as DestinationHome}  from './components/destinationHome';
 
-export { default as BlockList}  from './components/blockList';
 
 export { default as Masonry}  from './components/masonry';
 export { default as Flip}  from './components/flip';
+
+export { default as BlockList}  from './components/blockList';
 
 // "use strict";
 
